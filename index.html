@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sonic Oracle: Love Music Deeper (homepage mockup)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="concept-tag">Design concept for review, not a live build</div>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </span>
+      <div class="brand-text">
+        <span class="brand-name">Sonic&nbsp;Oracle</span>
+        <span class="brand-tagline">Love Music Deeper</span>
+      </div>
+    </div>
+    <nav class="site-nav" aria-label="Primary">
+      <a href="#how-it-works">How it works</a>
+      <a href="#difference">Why it's different</a>
+      <a href="#pricing">Pricing</a>
+    </nav>
+    <a class="btn btn-ghost" href="#pricing">Log in</a>
+  </div>
+</header>
+
+<main>
+
+  <section class="hero">
+    <div class="wrap hero-inner">
+      <div class="hero-copy">
+        <p class="eyebrow">Music discovery for people who actually listen</p>
+        <h1>Type an artist, a song, or a genre.<br>Leave with music you've never heard.</h1>
+        <p class="hero-sub">Sonic Oracle maps real listening behavior to find artists your streaming app quietly filters out. Every playlist lands directly in your Tidal, Qobuz, or YouTube Music library, ready to play on whatever you already listen on.</p>
+
+        <form class="discover-box" onsubmit="return false;">
+          <label class="visually-hidden" for="seed">Search an artist, song, or genre</label>
+          <input id="seed" type="text" placeholder="Try &ldquo;Nils Frahm&rdquo;, &ldquo;deep house&rdquo;, or a song you love">
+          <button type="submit" class="btn btn-primary">Discover</button>
+        </form>
+
+        <p class="hero-fineprint">Free to try: three playlists, no card needed.</p>
+
+        <div class="platform-row" aria-label="Works with">
+          <span class="platform-label">Works with</span>
+          <span class="chip">Tidal</span>
+          <span class="chip">Qobuz</span>
+          <span class="chip">YouTube Music</span>
+        </div>
+      </div>
+
+      <div class="hero-visual" aria-hidden="true">
+        <div class="result-card">
+          <div class="result-card-head">
+            <span class="dial dial-adventurous">Adventurous</span>
+            <span class="result-card-seed">Seed: Nils Frahm</span>
+          </div>
+          <ul class="track-list">
+            <li><span class="track-name">Marlow Vale</span><span class="track-title">Low Tide</span></li>
+            <li><span class="track-name">Ondine Frost</span><span class="track-title">Static Bloom</span></li>
+            <li><span class="track-name">Aki Renner</span><span class="track-title">Room Tone</span></li>
+            <li><span class="track-name">Halden Cole</span><span class="track-title">Amber Hour</span></li>
+            <li><span class="track-name">Vesna Bright</span><span class="track-title">Slow Weather</span></li>
+          </ul>
+          <div class="result-card-foot">Saved to Qobuz &middot; 62 tracks &middot; yours to keep</div>
+        </div>
+        <div class="vinyl" aria-hidden="true"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="difference" id="difference">
+    <div class="wrap">
+      <h2>Your streaming app keeps handing you the same ten names.</h2>
+      <div class="difference-grid">
+        <div class="difference-col difference-col-old">
+          <p class="difference-label">The usual algorithm</p>
+          <ul>
+            <li>Optimizes for keeping you on the app, not for surprising you</li>
+            <li>&ldquo;Similar artists&rdquo; means artists you already know</li>
+            <li>Radio stations vanish the moment you close them</li>
+          </ul>
+        </div>
+        <div class="difference-col difference-col-new">
+          <p class="difference-label">Sonic Oracle</p>
+          <ul>
+            <li>Maps taste affinity: what listeners like you go on to love</li>
+            <li>Surfaces artists those algorithms quietly skip over</li>
+            <li>Builds a permanent playlist you own, in your own library</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="how-it-works" id="how-it-works">
+    <div class="wrap">
+      <h2>Three steps to your next favorite artist</h2>
+      <ol class="steps">
+        <li>
+          <span class="step-num">01</span>
+          <h3>Enter a seed</h3>
+          <p>An artist, a song, or a genre: whatever's on your mind. No perfect prompt required.</p>
+        </li>
+        <li>
+          <span class="step-num">02</span>
+          <h3>Pick how far to wander</h3>
+          <p>Essential stays close to home. Balanced widens the circle. Adventurous crosses genres entirely.</p>
+        </li>
+        <li>
+          <span class="step-num">03</span>
+          <h3>Hit Discover</h3>
+          <p>A real playlist appears in Tidal, Qobuz, or YouTube Music, and on every streamer already connected to it.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="proof">
+    <div class="wrap proof-inner">
+      <blockquote>
+        &ldquo;What you've designed and created from scratch is the missing piece that starving music lovers have been hoping for.&rdquo;
+        <cite>R., lifetime subscriber</cite>
+      </blockquote>
+    </div>
+  </section>
+
+  <section class="final-cta" id="pricing">
+    <div class="wrap final-cta-inner">
+      <h2>Love music deeper.</h2>
+      <p>Start free. Three playlists, no card needed. See what the engine finds for you.</p>
+      <a href="#" class="btn btn-primary btn-large">Discover</a>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <span>&copy; 2026 Sonic Oracle</span>
+    <span class="footer-links">
+      <a href="#">Terms &amp; Privacy</a>
+      <a href="mailto:support@sonicoracle.music">support@sonicoracle.music</a>
+    </span>
+  </div>
+</footer>
+
+</body>
+</html>
