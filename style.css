@@ -12,8 +12,8 @@
   --accent-wash: #241c10;
   --groove-line: rgba(245, 241, 232, 0.05);
   --card-shadow: none;
-  --serif: "Fraunces", Georgia, serif;
-  --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --serif: "Playfair Display", Georgia, serif;
+  --sans: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --max: 1120px;
 }
 
@@ -219,9 +219,9 @@ body {
 
 h1 {
   font-family: var(--serif);
-  font-weight: 500;
-  font-size: clamp(2.1rem, 3.6vw, 3.1rem);
-  line-height: 1.12;
+  font-weight: 700;
+  font-size: clamp(2.6rem, 5.2vw, 4.4rem);
+  line-height: 1.08;
   margin: 0 0 22px;
   letter-spacing: -0.01em;
 }
@@ -275,12 +275,17 @@ h1 {
 }
 
 .chip {
+  display: inline-block;
   border: 1px solid var(--surface-line);
   color: var(--text-muted);
   font-size: 0.82rem;
   padding: 6px 14px;
   border-radius: 999px;
+  text-decoration: none;
+  transition: border-color 0.15s ease, color 0.15s ease;
 }
+
+.chip:hover { border-color: var(--accent); color: var(--accent-strong); }
 
 /* Hero visual */
 .hero-visual { position: relative; display: flex; justify-content: center; }
@@ -380,10 +385,29 @@ h1 {
 
 .difference h2 {
   font-family: var(--serif);
-  font-weight: 500;
-  font-size: clamp(1.6rem, 2.6vw, 2.2rem);
-  max-width: 22ch;
+  font-weight: 600;
+  font-size: clamp(1.9rem, 3.4vw, 2.8rem);
+  max-width: 30ch;
   margin: 0 0 44px;
+}
+
+.difference-heading-main { display: block; }
+
+.difference-heading-echo {
+  display: block;
+  margin: 18px 0 0 auto;
+  max-width: 24ch;
+  text-align: right;
+  color: var(--accent-strong);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.difference-heading-echo.is-visible { opacity: 1; transform: translateY(0); }
+
+@media (prefers-reduced-motion: reduce) {
+  .difference-heading-echo { transition: none; opacity: 1; transform: none; }
 }
 
 .difference-grid {
@@ -422,13 +446,31 @@ h1 {
 
 .difference-col-new li { color: var(--text); }
 
+/* Why the name */
+.why-oracle { padding: 84px 0; }
+
+.why-oracle-inner { max-width: 62ch; }
+
+.why-oracle h2 {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: clamp(1.7rem, 2.8vw, 2.3rem);
+  margin: 0 0 20px;
+}
+
+.why-oracle p {
+  color: var(--text-muted);
+  font-size: 1.05rem;
+  margin: 0;
+}
+
 /* How it works */
 .how-it-works { padding: 88px 0; }
 
 .how-it-works h2 {
   font-family: var(--serif);
-  font-weight: 500;
-  font-size: clamp(1.6rem, 2.6vw, 2.2rem);
+  font-weight: 600;
+  font-size: clamp(1.9rem, 3.4vw, 2.8rem);
   margin: 0 0 48px;
 }
 
@@ -496,8 +538,8 @@ cite::before {
 
 .final-cta h2 {
   font-family: var(--serif);
-  font-weight: 500;
-  font-size: clamp(2rem, 3.4vw, 2.8rem);
+  font-weight: 700;
+  font-size: clamp(2.3rem, 4vw, 3.4rem);
   margin: 0 0 14px;
 }
 
@@ -532,6 +574,7 @@ cite::before {
   .vinyl { width: 240px; height: 240px; }
   .site-nav { display: none; }
   .difference-grid { grid-template-columns: 1fr; }
+  .difference-heading-echo { margin: 14px 0 0; max-width: none; text-align: left; }
   .steps { grid-template-columns: 1fr; }
 }
 

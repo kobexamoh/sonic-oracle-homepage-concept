@@ -29,3 +29,28 @@
     } catch (e) {}
   });
 })();
+
+// Fade in [data-reveal] elements as they scroll into view.
+(function () {
+  var targets = document.querySelectorAll("[data-reveal]");
+  if (!targets.length) return;
+
+  if (!("IntersectionObserver" in window)) {
+    targets.forEach(function (el) { el.classList.add("is-visible"); });
+    return;
+  }
+
+  var observer = new IntersectionObserver(
+    function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.4 }
+  );
+
+  targets.forEach(function (el) { observer.observe(el); });
+})();
