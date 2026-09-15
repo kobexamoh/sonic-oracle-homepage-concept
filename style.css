@@ -1,4 +1,38 @@
 :root {
+  /* v4.5: light-only palette (dark mode paused, see NOTES.md). These are
+     the same values v4 used for :root[data-theme="light"]. */
+  --bg: #faf6ee;
+  --bg-alt: #f1e9d7;
+  --surface: #ffffff;
+  --surface-line: rgba(36, 30, 20, 0.14);
+  --text: #241f16;
+  --text-muted: #6d6252;
+  --text-faint: #857b68;
+  --accent: #b9762a;
+  --accent-strong: #9c6420;
+  --accent-ink: #fffaf0;
+  --accent-wash: #f7ecd8;
+  --groove-line: rgba(36, 30, 20, 0.06);
+  --card-shadow: none;
+  /* Secondary brand accent pulled from sonicoracle.music's navy background
+     family (#0c1220-#1c2840 on the live site, darkened here for readable
+     text/UI contrast on this light theme). Used sparingly alongside the
+     gold accent above; whether gold or navy is "the" brand color is TBD,
+     Alessandro to confirm. */
+  --navy: #1e2a52;
+  --serif: "Playfair Display", Georgia, serif;
+  --sans: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --max: 1120px;
+}
+
+/*
+  v4.5: dark mode paused to focus on the light theme. Original v4 dark
+  values kept here for a quick restore (the old :root[data-theme="light"]
+  override is gone since light is now the only/default theme; if dark mode
+  comes back, split these into a plain :root block and a
+  :root[data-theme="light"] override again like v4 had).
+
+:root {
   --bg: #0e0d0a;
   --bg-alt: #16140f;
   --surface: #1c1a15;
@@ -12,25 +46,8 @@
   --accent-wash: #241c10;
   --groove-line: rgba(245, 241, 232, 0.05);
   --card-shadow: none;
-  --serif: "Playfair Display", Georgia, serif;
-  --sans: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --max: 1120px;
 }
-
-:root[data-theme="light"] {
-  --bg: #faf6ee;
-  --bg-alt: #f1e9d7;
-  --surface: #ffffff;
-  --surface-line: rgba(36, 30, 20, 0.14);
-  --text: #241f16;
-  --text-muted: #6d6252;
-  --text-faint: #857b68;
-  --accent: #b9762a;
-  --accent-strong: #9c6420;
-  --accent-ink: #fffaf0;
-  --accent-wash: #f7ecd8;
-  --groove-line: rgba(36, 30, 20, 0.06);
-}
+*/
 
 * { box-sizing: border-box; }
 
@@ -41,6 +58,8 @@ body {
   background: var(--bg);
   color: var(--text);
   font-family: var(--sans);
+  /* v4.5: body copy read as too light at 400; bumped one step to 500. */
+  font-weight: 500;
   line-height: 1.55;
   -webkit-font-smoothing: antialiased;
   transition: background-color 0.2s ease, color 0.2s ease;
@@ -154,7 +173,7 @@ section[data-reveal].is-visible {
   transition: color 0.15s ease;
 }
 
-.site-nav a:hover { color: var(--text); }
+.site-nav a:hover { color: var(--navy); }
 
 /* Buttons */
 .btn {
@@ -189,7 +208,8 @@ section[data-reveal].is-visible {
 
 .btn-large { padding: 15px 30px; font-size: 1.05rem; }
 
-/* Theme toggle */
+/* Theme toggle: markup disabled for v4.5's light-only pass (see NOTES.md).
+   Rules kept commented out so re-enabling the toggle is a straight uncomment.
 .theme-toggle {
   display: inline-flex;
   align-items: center;
@@ -213,6 +233,7 @@ section[data-reveal].is-visible {
 
 :root[data-theme="light"] .theme-toggle .icon-sun { display: none; }
 :root[data-theme="light"] .theme-toggle .icon-moon { display: block; }
+*/
 
 /* Hero */
 .hero { padding: 76px 0 96px; position: relative; overflow: hidden; }
@@ -426,8 +447,8 @@ h1 {
 
 .difference h2 {
   font-family: var(--serif);
-  font-weight: 600;
-  font-size: clamp(1.9rem, 3.4vw, 2.8rem);
+  font-weight: 700;
+  font-size: clamp(2.1rem, 3.8vw, 3.1rem);
   margin: 0 0 44px;
 }
 
@@ -462,15 +483,18 @@ h1 {
 .difference-col {
   border-radius: 16px;
   padding: 28px;
-  border: 1px solid var(--surface-line);
+  /* v4.5: flat-card treatment, no border (see NOTES.md). To compare a
+     shadow-defined version instead: comment out the two background rules
+     below and uncomment this box-shadow.
+     box-shadow: 0 1px 3px rgba(36, 30, 20, 0.08), 0 10px 26px rgba(36, 30, 20, 0.07);
+  */
 }
 
-.difference-col-old { background: transparent; }
+/* Both columns get a background instead of a border so they still read as
+   grouped cards: old gets a plain surface tint, new keeps its gold wash. */
+.difference-col-old { background: var(--surface); }
 
-.difference-col-new {
-  background: var(--accent-wash);
-  border-color: var(--accent);
-}
+.difference-col-new { background: var(--accent-wash); }
 
 .difference-label {
   font-size: 0.78rem;
@@ -478,7 +502,9 @@ h1 {
   text-transform: uppercase;
   letter-spacing: 0.06em;
   color: var(--text-muted);
-  margin: 0 0 16px;
+  /* v4.5: tightened from 16px so the label sits closer to its list,
+     grouping them by proximity now that the border is gone. */
+  margin: 0 0 8px;
 }
 
 .difference-col-new .difference-label { color: var(--accent-strong); }
@@ -496,8 +522,8 @@ h1 {
 
 .why-oracle h2 {
   font-family: var(--serif);
-  font-weight: 600;
-  font-size: clamp(1.7rem, 2.8vw, 2.3rem);
+  font-weight: 700;
+  font-size: clamp(1.9rem, 3vw, 2.6rem);
   margin: 0 0 20px;
 }
 
@@ -512,8 +538,8 @@ h1 {
 
 .how-it-works h2 {
   font-family: var(--serif);
-  font-weight: 600;
-  font-size: clamp(1.9rem, 3.4vw, 2.8rem);
+  font-weight: 700;
+  font-size: clamp(2.1rem, 3.8vw, 3.1rem);
   margin: 0 0 48px;
 }
 
@@ -531,7 +557,8 @@ h1 {
 .step-num {
   display: block;
   font-family: var(--serif);
-  color: var(--accent);
+  /* Navy secondary accent used sparingly (see :root comment above). */
+  color: var(--navy);
   font-size: 1.1rem;
   margin-bottom: 12px;
 }
@@ -581,8 +608,8 @@ cite::before {
 
 .final-cta h2 {
   font-family: var(--serif);
-  font-weight: 700;
-  font-size: clamp(2.3rem, 4vw, 3.4rem);
+  font-weight: 800;
+  font-size: clamp(2.5rem, 4.4vw, 3.7rem);
   margin: 0 0 14px;
 }
 

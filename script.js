@@ -1,3 +1,7 @@
+// v4.5: light/dark toggle disabled (light-only version, see NOTES.md).
+// The button markup is commented out in index.html, so `toggle` below would
+// be null anyway; the whole block is commented out too for a clean re-enable.
+/*
 (function () {
   var STORAGE_KEY = "sonic-oracle-theme";
   var root = document.documentElement;
@@ -29,6 +33,7 @@
     } catch (e) {}
   });
 })();
+*/
 
 // Fade in [data-reveal] elements as they scroll into view, once, and leave
 // them visible on the way back up (no reverse fade on scroll-up).
