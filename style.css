@@ -60,6 +60,22 @@ body {
   white-space: nowrap;
 }
 
+/* Scroll reveal: sections fade up into view once, no fade-out on scroll back up. */
+section[data-reveal] {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+section[data-reveal].is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  section[data-reveal] { transition: none; opacity: 1; transform: none; }
+}
+
 /* Concept ribbon */
 .concept-tag {
   background: var(--accent);
@@ -282,10 +298,35 @@ h1 {
   padding: 6px 14px;
   border-radius: 999px;
   text-decoration: none;
-  transition: border-color 0.15s ease, color 0.15s ease;
+  transition: border-color 0.15s ease, color 0.15s ease, background-color 0.15s ease;
 }
 
 .chip:hover { border-color: var(--accent); color: var(--accent-strong); }
+
+/* Brand-colored platform chips: a quiet brand-tinted border at rest, full brand color on interaction. */
+.chip-tidal { border-color: rgba(23, 205, 218, 0.4); }
+.chip-tidal:hover,
+.chip-tidal:focus-visible {
+  border-color: #17cdda;
+  color: #17cdda;
+  background: rgba(23, 205, 218, 0.1);
+}
+
+.chip-qobuz { border-color: rgba(97, 161, 222, 0.4); }
+.chip-qobuz:hover,
+.chip-qobuz:focus-visible {
+  border-color: #61a1de;
+  color: #61a1de;
+  background: rgba(97, 161, 222, 0.1);
+}
+
+.chip-youtube { border-color: rgba(255, 0, 0, 0.35); }
+.chip-youtube:hover,
+.chip-youtube:focus-visible {
+  border-color: #ff0000;
+  color: #ff0000;
+  background: rgba(255, 0, 0, 0.08);
+}
 
 /* Hero visual */
 .hero-visual { position: relative; display: flex; justify-content: center; }
@@ -387,11 +428,13 @@ h1 {
   font-family: var(--serif);
   font-weight: 600;
   font-size: clamp(1.9rem, 3.4vw, 2.8rem);
-  max-width: 30ch;
   margin: 0 0 44px;
 }
 
-.difference-heading-main { display: block; }
+/* max-width lives on each line, not the shared h2, so the echo can mirror
+   the main line's edge against the full heading width instead of a
+   narrower shared box. */
+.difference-heading-main { display: block; max-width: 30ch; }
 
 .difference-heading-echo {
   display: block;
