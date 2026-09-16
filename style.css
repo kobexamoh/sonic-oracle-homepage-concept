@@ -11,7 +11,11 @@
   --accent: #b9762a;
   --accent-strong: #9c6420;
   --accent-ink: #fffaf0;
-  --accent-wash: #f7ecd8;
+  /* v4.5 fix: was #f7ecd8, nearly identical to --bg-alt (#f1e9d7) so the
+     "Sonic Oracle" difference-card barely read as a card. Deepened/warmed
+     it so it's a real gold-tan tone, distinct from both --bg-alt and the
+     white --surface the other card uses. */
+  --accent-wash: #e9d3bb;
   --groove-line: rgba(36, 30, 20, 0.06);
   --card-shadow: none;
   /* Secondary brand accent pulled from sonicoracle.music's navy background
