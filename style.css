@@ -571,6 +571,110 @@ h1 {
 
 .steps p { margin: 0; color: var(--text-muted); font-size: 0.95rem; }
 
+/* Pricing */
+.pricing { padding: 88px 0; }
+
+.pricing h2 {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: clamp(2.1rem, 3.8vw, 3.1rem);
+  margin: 0 0 44px;
+}
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  align-items: stretch;
+}
+
+.pricing-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border-radius: 16px;
+  padding: 32px;
+}
+
+.pricing-card-featured { background: var(--accent-wash); }
+
+.pricing-badge {
+  align-self: flex-start;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--accent-ink);
+  background: var(--accent);
+  padding: 4px 10px;
+  border-radius: 999px;
+  margin: 0 0 16px;
+}
+
+.pricing-plan {
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  margin: 0 0 10px;
+}
+
+.pricing-card-featured .pricing-plan { color: var(--accent-strong); }
+
+.pricing-price {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin: 0 0 4px;
+}
+
+.pricing-amount {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: 2.6rem;
+  color: var(--text);
+}
+
+.pricing-note {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin: 0 0 22px;
+}
+
+.pricing-features {
+  list-style: none;
+  margin: 0 0 28px;
+  padding: 0;
+  flex: 1;
+}
+
+.pricing-features li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  color: var(--text-muted);
+  font-size: 0.92rem;
+}
+
+.pricing-features li::before {
+  content: "\2713";
+  color: #4f8f52;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+.pricing-card-featured .pricing-features li { color: var(--text); }
+
+.pricing-btn { width: 100%; }
+
+.pricing-fineprint {
+  margin: 32px 0 0;
+  color: var(--text-faint);
+  font-size: 0.85rem;
+}
+
 /* Proof */
 .proof { background: var(--bg-alt); padding: 72px 0; }
 
@@ -650,6 +754,7 @@ cite::before {
   .difference-grid { grid-template-columns: 1fr; }
   .difference-heading-echo { margin: 14px 0 0; max-width: none; text-align: left; }
   .steps { grid-template-columns: 1fr; }
+  .pricing-grid { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 520px) {
