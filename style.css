@@ -27,6 +27,14 @@
   --serif: "Playfair Display", Georgia, serif;
   --sans: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --max: 1120px;
+  /* v6: named line-height scale, first step toward a real token set (see
+     NOTES.md). --leading-tight is for the h1 display line, --leading-snug
+     for section h2s (both were relying on mismatched defaults: h1 was
+     hardcoded too tight, h2s had no line-height at all and inherited the
+     body's loose 1.55). */
+  --leading-tight: 1.15;
+  --leading-snug: 1.2;
+  --leading-body: 1.55;
 }
 
 /*
@@ -64,7 +72,12 @@ body {
   font-family: var(--sans);
   /* v4.5: body copy read as too light at 400; bumped one step to 500. */
   font-weight: 500;
-  line-height: 1.55;
+  /* v6: base copy size was riding on the 16px browser default; bumped to
+     17px so paragraph-level text (and anything that doesn't set its own
+     font-size, like the difference-section list items) reads a touch
+     larger. */
+  font-size: 1.0625rem;
+  line-height: var(--leading-body);
   -webkit-font-smoothing: antialiased;
   transition: background-color 0.2s ease, color 0.2s ease;
 }
@@ -249,27 +262,20 @@ section[data-reveal].is-visible {
   align-items: center;
 }
 
-.eyebrow {
-  color: var(--accent-strong);
-  font-size: 0.82rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  margin: 0 0 18px;
-}
-
 h1 {
   font-family: var(--serif);
   font-weight: 700;
   font-size: clamp(2.6rem, 5.2vw, 4.4rem);
-  line-height: 1.08;
+  /* v6: was 1.08, tight enough to clip descenders and feel cramped on the
+     wrapped two-line headline. */
+  line-height: var(--leading-tight);
   margin: 0 0 22px;
   letter-spacing: -0.01em;
 }
 
 .hero-sub {
   color: var(--text-muted);
-  font-size: 1.08rem;
+  font-size: 1.15rem;
   max-width: 46ch;
   margin: 0 0 32px;
 }
@@ -291,7 +297,7 @@ h1 {
   outline: none;
   color: var(--text);
   font-family: var(--sans);
-  font-size: 0.98rem;
+  font-size: 1.02rem;
   padding: 12px 14px;
 }
 
@@ -453,6 +459,9 @@ h1 {
   font-family: var(--serif);
   font-weight: 700;
   font-size: clamp(2.1rem, 3.8vw, 3.1rem);
+  /* v6: h2s had no line-height of their own and were inheriting the
+     body's 1.55, too loose for display-size serif text. */
+  line-height: var(--leading-snug);
   margin: 0 0 44px;
 }
 
@@ -528,12 +537,13 @@ h1 {
   font-family: var(--serif);
   font-weight: 700;
   font-size: clamp(1.9rem, 3vw, 2.6rem);
+  line-height: var(--leading-snug);
   margin: 0 0 20px;
 }
 
 .why-oracle p {
   color: var(--text-muted);
-  font-size: 1.05rem;
+  font-size: 1.1rem;
   margin: 0;
 }
 
@@ -544,6 +554,7 @@ h1 {
   font-family: var(--serif);
   font-weight: 700;
   font-size: clamp(2.1rem, 3.8vw, 3.1rem);
+  line-height: var(--leading-snug);
   margin: 0 0 48px;
 }
 
@@ -569,7 +580,7 @@ h1 {
 
 .steps h3 { margin: 0 0 10px; font-size: 1.1rem; }
 
-.steps p { margin: 0; color: var(--text-muted); font-size: 0.95rem; }
+.steps p { margin: 0; color: var(--text-muted); font-size: 1rem; }
 
 /* Pricing */
 .pricing { padding: 88px 0; }
@@ -578,6 +589,7 @@ h1 {
   font-family: var(--serif);
   font-weight: 700;
   font-size: clamp(2.1rem, 3.8vw, 3.1rem);
+  line-height: var(--leading-snug);
   margin: 0 0 44px;
 }
 
@@ -638,7 +650,7 @@ h1 {
 
 .pricing-note {
   color: var(--text-muted);
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   margin: 0 0 22px;
 }
 
@@ -655,7 +667,7 @@ h1 {
   gap: 10px;
   padding: 8px 0;
   color: var(--text-muted);
-  font-size: 0.92rem;
+  font-size: 0.98rem;
 }
 
 .pricing-features li::before {
@@ -718,6 +730,7 @@ cite::before {
   font-family: var(--serif);
   font-weight: 800;
   font-size: clamp(2.5rem, 4.4vw, 3.7rem);
+  line-height: var(--leading-snug);
   margin: 0 0 14px;
 }
 
