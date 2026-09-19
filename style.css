@@ -114,6 +114,11 @@ section[data-reveal].is-visible {
 
 /* Concept ribbon */
 .concept-tag {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 6px 20px;
   background: var(--accent);
   color: var(--accent-ink);
   text-align: center;
@@ -122,6 +127,33 @@ section[data-reveal].is-visible {
   letter-spacing: 0.02em;
   padding: 8px 12px;
 }
+
+/* v6: font-picker, a review-only tool (not part of the design being
+   evaluated) for trying the Playfair Display replacement shortlist live.
+   See NOTES.md and script.js. Deliberately docked in the same ribbon as
+   the "not a live build" notice so it reads as tooling, not content. */
+.font-picker {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+}
+
+.font-picker-label { opacity: 0.85; }
+
+.font-picker select {
+  font-family: var(--sans);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--accent-ink);
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 6px;
+  padding: 3px 6px;
+  cursor: pointer;
+}
+
+.font-picker select option { color: var(--text); }
 
 /* Header */
 .site-header {

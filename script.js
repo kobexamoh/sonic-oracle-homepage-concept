@@ -35,6 +35,41 @@
 })();
 */
 
+// v6: font-picker, review-only tool for trying the Playfair Display
+// replacement shortlist live (see NOTES.md). Every heading/brand/blockquote
+// rule in style.css already reads `var(--serif)`, so swapping fonts is just
+// updating that one custom property; no per-element wiring needed. Choice
+// persists in localStorage so it survives a refresh mid-review.
+(function () {
+  var STORAGE_KEY = "sonic-oracle-font-preview";
+  var picker = document.getElementById("fontPicker");
+  if (!picker) return;
+
+  function applyFont(family) {
+    document.documentElement.style.setProperty(
+      "--serif",
+      "'" + family + "', Georgia, serif"
+    );
+  }
+
+  var stored;
+  try {
+    stored = localStorage.getItem(STORAGE_KEY);
+  } catch (e) {}
+
+  if (stored) {
+    picker.value = stored;
+    applyFont(stored);
+  }
+
+  picker.addEventListener("change", function () {
+    applyFont(picker.value);
+    try {
+      localStorage.setItem(STORAGE_KEY, picker.value);
+    } catch (e) {}
+  });
+})();
+
 // Fade in [data-reveal] elements as they scroll into view, once, and leave
 // them visible on the way back up (no reverse fade on scroll-up).
 (function () {

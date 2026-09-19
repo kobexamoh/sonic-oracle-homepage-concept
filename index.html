@@ -8,7 +8,15 @@
 <link rel="apple-touch-icon" href="favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,500;1,600&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!--
+  v6: font-picker shortlist bundled alongside the site fonts (see NOTES.md
+  and the #fontPicker control below). All 8 are confirmed live on Google
+  Fonts. Scheherazade New and Vesper Libre don't ship an italic style, so
+  they're requested as normal-weight-only; the rest match Playfair's
+  weight/italic spread closely enough to cover every var(--serif) use
+  (h1/h2 bold, brand-name/step-num regular-ish, blockquote italic).
+-->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,500;1,600&family=DM+Sans:wght@400;500;600;700&family=Cormorant:ital,wght@0,400;0,600;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Libertinus+Serif:ital,wght@0,400;0,600;0,700;1,400&family=Scheherazade+New:wght@400;500;600;700&family=Vesper+Libre:wght@400;500;700&family=Wittgenstein:ital,wght@0,400;0,600;0,700;1,400&family=Rasa:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Serif+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <!--
   v4.5: dark mode is intentionally disabled while we tune the light theme
@@ -33,7 +41,23 @@
 </head>
 <body>
 
-<div class="concept-tag">Design concept for review, not a live build</div>
+<div class="concept-tag">
+  <span>Design concept for review, not a live build</span>
+  <label class="font-picker">
+    <span class="font-picker-label">Preview heading font</span>
+    <select id="fontPicker">
+      <option value="Playfair Display">Playfair Display (current)</option>
+      <option value="Cormorant">Cormorant</option>
+      <option value="Cormorant Garamond">Cormorant Garamond</option>
+      <option value="Libertinus Serif">Libertinus Serif</option>
+      <option value="Scheherazade New">Scheherazade New</option>
+      <option value="Vesper Libre">Vesper Libre</option>
+      <option value="Wittgenstein">Wittgenstein</option>
+      <option value="Rasa">Rasa</option>
+      <option value="Noto Serif Display">Noto Serif Display</option>
+    </select>
+  </label>
+</div>
 
 <header class="site-header">
   <div class="wrap header-inner">
