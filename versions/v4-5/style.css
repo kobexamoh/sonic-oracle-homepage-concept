@@ -1,0 +1,658 @@
+:root {
+  /* v4.5: light-only palette (dark mode paused, see NOTES.md). These are
+     the same values v4 used for :root[data-theme="light"]. */
+  --bg: #faf6ee;
+  --bg-alt: #f1e9d7;
+  --surface: #ffffff;
+  --surface-line: rgba(36, 30, 20, 0.14);
+  --text: #241f16;
+  --text-muted: #6d6252;
+  --text-faint: #857b68;
+  --accent: #b9762a;
+  --accent-strong: #9c6420;
+  --accent-ink: #fffaf0;
+  /* v4.5 fix: was #f7ecd8, nearly identical to --bg-alt (#f1e9d7) so the
+     "Sonic Oracle" difference-card barely read as a card. Deepened/warmed
+     it so it's a real gold-tan tone, distinct from both --bg-alt and the
+     white --surface the other card uses. */
+  --accent-wash: #e9d3bb;
+  --groove-line: rgba(36, 30, 20, 0.06);
+  --card-shadow: none;
+  /* Secondary brand accent pulled from sonicoracle.music's navy background
+     family (#0c1220-#1c2840 on the live site, darkened here for readable
+     text/UI contrast on this light theme). Used sparingly alongside the
+     gold accent above; whether gold or navy is "the" brand color is TBD,
+     Alessandro to confirm. */
+  --navy: #1e2a52;
+  --serif: "Playfair Display", Georgia, serif;
+  --sans: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --max: 1120px;
+}
+
+/*
+  v4.5: dark mode paused to focus on the light theme. Original v4 dark
+  values kept here for a quick restore (the old :root[data-theme="light"]
+  override is gone since light is now the only/default theme; if dark mode
+  comes back, split these into a plain :root block and a
+  :root[data-theme="light"] override again like v4 had).
+
+:root {
+  --bg: #0e0d0a;
+  --bg-alt: #16140f;
+  --surface: #1c1a15;
+  --surface-line: rgba(245, 241, 232, 0.1);
+  --text: #f5f1e8;
+  --text-muted: #b4ac9a;
+  --text-faint: #9c9080;
+  --accent: #e3a34f;
+  --accent-strong: #f2c078;
+  --accent-ink: #241a0c;
+  --accent-wash: #241c10;
+  --groove-line: rgba(245, 241, 232, 0.05);
+  --card-shadow: none;
+}
+*/
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  /* v4.5: body copy read as too light at 400; bumped one step to 500. */
+  font-weight: 500;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.wrap {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 0 28px;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px; height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* Scroll reveal: sections fade up into view once, no fade-out on scroll back up. */
+section[data-reveal] {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+section[data-reveal].is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  section[data-reveal] { transition: none; opacity: 1; transform: none; }
+}
+
+/* Concept ribbon */
+.concept-tag {
+  background: var(--accent);
+  color: var(--accent-ink);
+  text-align: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  padding: 8px 12px;
+}
+
+/* Header */
+.site-header {
+  border-bottom: 1px solid var(--surface-line);
+  padding: 20px 0;
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-right: auto;
+}
+
+.brand-mark {
+  display: inline-flex;
+  gap: 3px;
+  align-items: flex-end;
+  height: 20px;
+}
+
+.brand-mark span {
+  display: block;
+  width: 4px;
+  background: var(--accent);
+  border-radius: 2px;
+  animation: pulse 1.8s ease-in-out infinite;
+}
+
+.brand-mark span:nth-child(1) { height: 10px; animation-delay: 0s; }
+.brand-mark span:nth-child(2) { height: 20px; animation-delay: 0.25s; }
+.brand-mark span:nth-child(3) { height: 14px; animation-delay: 0.5s; }
+
+@keyframes pulse {
+  0%, 100% { transform: scaleY(0.6); opacity: 0.7; }
+  50% { transform: scaleY(1); opacity: 1; }
+}
+
+.brand-text { display: flex; flex-direction: column; line-height: 1.15; }
+
+.brand-name {
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+.brand-tagline {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.site-nav { display: flex; gap: 26px; }
+
+.site-nav a {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.92rem;
+  transition: color 0.15s ease;
+}
+
+.site-nav a:hover { color: var(--navy); }
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  border-radius: 999px;
+  padding: 12px 22px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+.btn-primary:hover { background: var(--accent-strong); transform: translateY(-1px); }
+
+.btn-ghost {
+  color: var(--text);
+  border-color: var(--surface-line);
+}
+
+.btn-ghost:hover { border-color: var(--accent); color: var(--accent-strong); }
+
+.btn-large { padding: 15px 30px; font-size: 1.05rem; }
+
+/* Theme toggle: markup disabled for v4.5's light-only pass (see NOTES.md).
+   Rules kept commented out so re-enabling the toggle is a straight uncomment.
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border-radius: 999px;
+  border: 1px solid var(--surface-line);
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.theme-toggle:hover { border-color: var(--accent); color: var(--accent-strong); }
+
+.theme-toggle svg { width: 18px; height: 18px; }
+
+.theme-toggle .icon-moon { display: none; }
+
+:root[data-theme="light"] .theme-toggle .icon-sun { display: none; }
+:root[data-theme="light"] .theme-toggle .icon-moon { display: block; }
+*/
+
+/* Hero */
+.hero { padding: 76px 0 96px; position: relative; overflow: hidden; }
+
+.hero-inner {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 56px;
+  align-items: center;
+}
+
+.eyebrow {
+  color: var(--accent-strong);
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin: 0 0 18px;
+}
+
+h1 {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: clamp(2.6rem, 5.2vw, 4.4rem);
+  line-height: 1.08;
+  margin: 0 0 22px;
+  letter-spacing: -0.01em;
+}
+
+.hero-sub {
+  color: var(--text-muted);
+  font-size: 1.08rem;
+  max-width: 46ch;
+  margin: 0 0 32px;
+}
+
+.discover-box {
+  display: flex;
+  background: var(--surface);
+  border: 1px solid var(--surface-line);
+  border-radius: 14px;
+  padding: 6px;
+  gap: 6px;
+  max-width: 520px;
+}
+
+.discover-box input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 0.98rem;
+  padding: 12px 14px;
+}
+
+.discover-box input::placeholder { color: var(--text-faint); }
+
+.hero-fineprint {
+  color: var(--text-faint);
+  font-size: 0.85rem;
+  margin: 14px 0 34px;
+}
+
+.platform-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.platform-label {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+.chip {
+  display: inline-block;
+  border: 1px solid var(--surface-line);
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  padding: 6px 14px;
+  border-radius: 999px;
+  text-decoration: none;
+  transition: border-color 0.15s ease, color 0.15s ease, background-color 0.15s ease;
+}
+
+.chip:hover { border-color: var(--accent); color: var(--accent-strong); }
+
+/* Brand-colored platform chips: a quiet brand-tinted border at rest, full brand color on interaction. */
+.chip-tidal { border-color: rgba(23, 205, 218, 0.4); }
+.chip-tidal:hover,
+.chip-tidal:focus-visible {
+  border-color: #17cdda;
+  color: #17cdda;
+  background: rgba(23, 205, 218, 0.1);
+}
+
+.chip-qobuz { border-color: rgba(97, 161, 222, 0.4); }
+.chip-qobuz:hover,
+.chip-qobuz:focus-visible {
+  border-color: #61a1de;
+  color: #61a1de;
+  background: rgba(97, 161, 222, 0.1);
+}
+
+.chip-youtube { border-color: rgba(255, 0, 0, 0.35); }
+.chip-youtube:hover,
+.chip-youtube:focus-visible {
+  border-color: #ff0000;
+  color: #ff0000;
+  background: rgba(255, 0, 0, 0.08);
+}
+
+/* Hero visual */
+.hero-visual { position: relative; display: flex; justify-content: center; }
+
+.vinyl {
+  position: absolute;
+  width: 340px;
+  height: 340px;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-58%, -50%);
+  background: none;
+  border: 1px solid var(--groove-line);
+  z-index: 0;
+}
+
+.vinyl::before,
+.vinyl::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.vinyl::before {
+  width: 220px;
+  height: 220px;
+  border: 1px solid var(--groove-line);
+}
+
+.vinyl::after {
+  width: 16px;
+  height: 16px;
+  background: var(--groove-line);
+}
+
+.result-card {
+  position: relative;
+  z-index: 1;
+  background: var(--surface);
+  border: 1px solid var(--surface-line);
+  border-radius: 18px;
+  padding: 22px;
+  width: 100%;
+  max-width: 380px;
+  box-shadow: var(--card-shadow);
+}
+
+.result-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.dial {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--accent-ink);
+  background: var(--accent);
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+.result-card-seed { font-size: 0.8rem; color: var(--text-muted); }
+
+.track-list { list-style: none; margin: 0 0 16px; padding: 0; }
+
+.track-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--surface-line);
+  font-size: 0.9rem;
+}
+
+.track-list li:last-child { border-bottom: none; }
+
+.track-name { color: var(--text); font-weight: 500; }
+.track-title { color: var(--text-muted); }
+
+.result-card-foot {
+  font-size: 0.78rem;
+  color: var(--text-faint);
+  border-top: 1px solid var(--surface-line);
+  padding-top: 14px;
+}
+
+/* Difference section */
+.difference { background: var(--bg-alt); padding: 84px 0; }
+
+.difference h2 {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: clamp(2.1rem, 3.8vw, 3.1rem);
+  margin: 0 0 44px;
+}
+
+/* max-width lives on each line, not the shared h2, so the echo can mirror
+   the main line's edge against the full heading width instead of a
+   narrower shared box. */
+.difference-heading-main { display: block; max-width: 30ch; }
+
+.difference-heading-echo {
+  display: block;
+  margin: 18px 0 0 auto;
+  max-width: 24ch;
+  text-align: right;
+  color: var(--accent-strong);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.difference-heading-echo.is-visible { opacity: 1; transform: translateY(0); }
+
+@media (prefers-reduced-motion: reduce) {
+  .difference-heading-echo { transition: none; opacity: 1; transform: none; }
+}
+
+.difference-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+}
+
+.difference-col {
+  border-radius: 16px;
+  padding: 28px;
+  /* v4.5: flat-card treatment, no border (see NOTES.md). To compare a
+     shadow-defined version instead: comment out the two background rules
+     below and uncomment this box-shadow.
+     box-shadow: 0 1px 3px rgba(36, 30, 20, 0.08), 0 10px 26px rgba(36, 30, 20, 0.07);
+  */
+}
+
+/* Both columns get a background instead of a border so they still read as
+   grouped cards: old gets a plain surface tint, new keeps its gold wash. */
+.difference-col-old { background: var(--surface); }
+
+.difference-col-new { background: var(--accent-wash); }
+
+.difference-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  /* v4.5: tightened from 16px so the label sits closer to its list,
+     grouping them by proximity now that the border is gone. */
+  margin: 0 0 8px;
+}
+
+.difference-col-new .difference-label { color: var(--accent-strong); }
+
+.difference-col ul { margin: 0; padding: 0 0 0 18px; }
+
+.difference-col li { margin-bottom: 12px; color: var(--text-muted); }
+
+.difference-col-new li { color: var(--text); }
+
+/* Why the name */
+.why-oracle { padding: 84px 0; }
+
+.why-oracle-inner { max-width: 62ch; }
+
+.why-oracle h2 {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: clamp(1.9rem, 3vw, 2.6rem);
+  margin: 0 0 20px;
+}
+
+.why-oracle p {
+  color: var(--text-muted);
+  font-size: 1.05rem;
+  margin: 0;
+}
+
+/* How it works */
+.how-it-works { padding: 88px 0; }
+
+.how-it-works h2 {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: clamp(2.1rem, 3.8vw, 3.1rem);
+  margin: 0 0 48px;
+}
+
+.steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+
+.steps li { border-top: 1px solid var(--surface-line); padding-top: 20px; }
+
+.step-num {
+  display: block;
+  font-family: var(--serif);
+  /* Navy secondary accent used sparingly (see :root comment above). */
+  color: var(--navy);
+  font-size: 1.1rem;
+  margin-bottom: 12px;
+}
+
+.steps h3 { margin: 0 0 10px; font-size: 1.1rem; }
+
+.steps p { margin: 0; color: var(--text-muted); font-size: 0.95rem; }
+
+/* Proof */
+.proof { background: var(--bg-alt); padding: 72px 0; }
+
+.proof-inner { text-align: center; }
+
+blockquote {
+  margin: 0 auto;
+  max-width: 640px;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(1.2rem, 2vw, 1.5rem);
+  line-height: 1.4;
+}
+
+cite {
+  display: block;
+  margin-top: 20px;
+  font-style: normal;
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  position: relative;
+  padding-top: 16px;
+}
+
+cite::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 28px;
+  height: 2px;
+  background: var(--accent);
+}
+
+/* Final CTA */
+.final-cta { padding: 96px 0 110px; text-align: center; }
+
+.final-cta h2 {
+  font-family: var(--serif);
+  font-weight: 800;
+  font-size: clamp(2.5rem, 4.4vw, 3.7rem);
+  margin: 0 0 14px;
+}
+
+.final-cta p {
+  color: var(--text-muted);
+  margin: 0 0 32px;
+}
+
+/* Footer */
+.site-footer {
+  border-top: 1px solid var(--surface-line);
+  padding: 26px 0;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.footer-inner {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.footer-links { display: flex; gap: 20px; }
+
+.footer-links a { color: var(--text-muted); }
+
+/* Responsive */
+@media (max-width: 880px) {
+  .hero-inner { grid-template-columns: 1fr; }
+  .hero-visual { order: -1; margin-bottom: 12px; }
+  .vinyl { width: 240px; height: 240px; }
+  .site-nav { display: none; }
+  .difference-grid { grid-template-columns: 1fr; }
+  .difference-heading-echo { margin: 14px 0 0; max-width: none; text-align: left; }
+  .steps { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 520px) {
+  .discover-box { flex-direction: column; }
+  .discover-box .btn { width: 100%; }
+}
