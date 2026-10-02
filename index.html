@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Sonic Oracle discovers artists your streaming app can't find. Permanent playlists for Qobuz, Tidal, and YouTube Music, built from taste affinity instead of generic algorithms.">
-<meta name="theme-color" content="#ffffff">
+<meta name="theme-color" content="#faf8f3">
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" type="image/png" href="/icon-512.png">
 <link rel="apple-touch-icon" href="/icon-512.png">
@@ -24,23 +24,25 @@
 /* ── TOKENS ─────────────────────────────────────────────
    Every color, size, and space in the page comes from here. */
 :root {
-  /* Color (stage A: grayscale on purpose; color comes back in stage B) */
-  --bg: #ffffff;
-  --bg-alt: #f3f3f3;
+  /* Color. Light surfaces, the site's navy as ink, blue for actions, gold
+     kept sparse (logo bars and one headline accent). Text pairs measured
+     at 5.3:1 or better; gold is decoration only except --gold-ink. */
+  --bg: #faf8f3;
+  --bg-alt: #f1ede3;
   --surface: #ffffff;
-  --line: #c9c9c9;
-  --ink: #111111;
-  --ink-2: #2e2e2e;
-  --muted: #595959;
-  --accent: #111111;
-  --accent-hover: #000000;
+  --line: #d8d3c6;
+  --ink: #0c1220;
+  --ink-2: #2f3a52;
+  --muted: #566178;
+  --accent: #2a4bb0;
+  --accent-hover: #1f3a8f;
   --accent-ink: #ffffff;
-  --gold: #8c8c8c;
-  --gold-ink: #111111;
-  --focus: #111111;
-  --dot-tidal: #595959;
-  --dot-qobuz: #595959;
-  --dot-ytm: #595959;
+  --gold: #c8965a;
+  --gold-ink: #8a5a1c;
+  --focus: #2a4bb0;
+  --dot-tidal: #23a6a6;
+  --dot-qobuz: #3d9b69;
+  --dot-ytm: #d4603f;
 
   /* Type */
   --serif: "Playfair Display", Georgia, serif;
