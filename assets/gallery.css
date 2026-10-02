@@ -210,11 +210,14 @@ a:hover { color: var(--text); }
   padding: 40px 0 72px;
 }
 
-.compare-intro {
+.compare-intro,
+.section-intro {
   max-width: 62ch;
   margin: -12px 0 24px;
   color: var(--text-muted);
 }
+
+#live-site .table-note { margin-top: 24px; }
 
 .table-scroll {
   overflow-x: auto;
