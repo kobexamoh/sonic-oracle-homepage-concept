@@ -261,6 +261,13 @@ main > section + section { border-top: 1px solid var(--line); }
   align-items: center;
   gap: var(--s5);
 }
+@media (max-width: 22.5rem) {
+  .header-inner { gap: var(--s3); }
+  .logo { gap: var(--s2); }
+  .logo-text { font-size: 1.0625rem; }
+  .header-nav { gap: var(--s3); }
+  .header-nav .btn { padding: 0 var(--s4); }
+}
 
 /* ── HERO ───────────────────────────────────────────── */
 .hero { padding-top: clamp(2rem, 6vw, 5rem); }
@@ -482,6 +489,49 @@ main > section + section { border-top: 1px solid var(--line); }
   justify-content: space-between;
   gap: var(--s3) var(--s5);
 }
+
+/* ── MOTION ─────────────────────────────────────────────
+   Added last, after layout, spacing, and color were settled.
+   Everything here is off when the visitor prefers reduced motion,
+   and the page is fully visible without JavaScript. */
+.btn { transition: background-color 0.15s ease, color 0.15s ease; }
+
+@keyframes wave {
+  0%, 100% { transform: scaleY(0.3); }
+  50% { transform: scaleY(1); }
+}
+
+/* Sections fade up once as they enter, and stay put on the way back up. */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(1.5rem);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.js .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Logo text shrinks from "Sonic Oracle" to "S O" as the page scrolls down,
+   and grows back on the way up. --collapse runs 0 to 1 with scroll position;
+   --w is each hidden run's natural width, measured in script. */
+.logo-text .rest {
+  max-width: calc(var(--w, 4em) * (1 - var(--collapse, 0)));
+  opacity: calc(1 - var(--collapse, 0) * 1.25);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .logo-bar { animation: wave 1.3s ease-in-out infinite; }
+  .logo-bar:nth-child(2) { animation-delay: 0.12s; }
+  .logo-bar:nth-child(3) { animation-delay: 0.24s; }
+  .logo-bar:nth-child(4) { animation-delay: 0.36s; }
+  .logo-bar:nth-child(5) { animation-delay: 0.48s; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js .reveal { opacity: 1; transform: none; transition: none; }
+  .logo-text .rest { max-width: none; opacity: 1; }
+}
 </style>
 </head>
 <body>
@@ -588,7 +638,7 @@ main > section + section { border-top: 1px solid var(--line); }
         </article>
         <article class="card diff-card">
           <h3>Best tracks, not filler</h3>
-          <p>Every track is selected from the artist's strongest albums, ranked by popularity and matched to your seed. No compilations, no covers, no holiday albums.</p>
+          <p>Every track is selected from the artist's strongest albums, ranked by popularity and matched to what you searched for. No compilations, no covers, no holiday albums.</p>
           <p class="diff-vs">Random deep cuts → Representative best work</p>
         </article>
       </div>
@@ -726,7 +776,56 @@ main > section + section { border-top: 1px solid var(--line); }
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
-  // Email signup. Posts to /api/waitlist on the real domain.
+  // Scroll reveal: one way, so sections stay visible once shown.
+  var reveals = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+    reveals.forEach(function (el) { io.observe(el); });
+  } else {
+    reveals.forEach(function (el) { el.classList.add('is-visible'); });
+  }
+
+  // Logo: "Sonic Oracle" scrubs down to "S O" with scroll position.
+  var logoText = document.querySelector('.logo-text');
+  var rests = logoText.querySelectorAll('.rest');
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var COLLAPSE_START = 24;   // px scrolled before it starts
+  var COLLAPSE_RANGE = 180;  // px of further scroll to finish
+  var ticking = false;
+
+  function measureLogo() {
+    rests.forEach(function (el) {
+      el.style.maxWidth = 'none';
+      el.style.setProperty('--w', el.getBoundingClientRect().width + 'px');
+      el.style.maxWidth = '';
+    });
+  }
+  function updateLogo() {
+    ticking = false;
+    var p = reduceMotion.matches ? 0 : (window.scrollY - COLLAPSE_START) / COLLAPSE_RANGE;
+    p = Math.min(Math.max(p, 0), 1);
+    logoText.style.setProperty('--collapse', p.toFixed(3));
+  }
+  function requestLogoUpdate() {
+    if (!ticking) { ticking = true; window.requestAnimationFrame(updateLogo); }
+  }
+  window.addEventListener('scroll', requestLogoUpdate, { passive: true });
+  window.addEventListener('resize', measureLogo);
+  reduceMotion.addEventListener('change', updateLogo);
+  measureLogo();
+  updateLogo();
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { measureLogo(); updateLogo(); });
+  }
+
+  // Email signup. Posts to /api/waitlist on the production site.
   var form = document.getElementById('signup');
   var input = document.getElementById('signup-email');
   var btn = document.getElementById('signup-btn');
