@@ -1,0 +1,11 @@
+{
+  "redirects": [
+    { "source": "/app", "destination": "https://sonicoracle.music/app", "permanent": false },
+    { "source": "/blog", "destination": "https://sonicoracle.music/blog", "permanent": false },
+    { "source": "/blog/:path*", "destination": "https://sonicoracle.music/blog/:path*", "permanent": false },
+    { "source": "/terms", "destination": "https://sonicoracle.music/terms", "permanent": false },
+    { "source": "/manifest.json", "destination": "https://sonicoracle.music/manifest.json", "permanent": false },
+    { "source": "/icon-512.png", "destination": "https://sonicoracle.music/icon-512.png", "permanent": false },
+    { "source": "/og-image.png", "destination": "https://sonicoracle.music/og-image.png", "permanent": false }
+  ]
+}
