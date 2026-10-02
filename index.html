@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Sonic Oracle discovers artists your streaming app can't find. Permanent playlists for Qobuz, Tidal, and YouTube Music, built from taste affinity instead of generic algorithms.">
+<meta name="theme-color" content="#ffffff">
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" type="image/png" href="/icon-512.png">
+<link rel="apple-touch-icon" href="/icon-512.png">
+<meta property="og:title" content="Sonic Oracle: Music Discovery Engine">
+<meta property="og:description" content="Discover artists your streaming app can't find. Permanent playlists built by taste affinity for Qobuz, Tidal, and YouTube Music.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://sonicoracle.music">
+<meta property="og:image" content="https://sonicoracle.music/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<title>Sonic Oracle, Music Discovery for Audiophiles</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script>document.documentElement.classList.add('js');</script>
+<style>
+/* ── TOKENS ─────────────────────────────────────────────
+   Every color, size, and space in the page comes from here. */
+:root {
+  /* Color (stage A: grayscale on purpose; color comes back in stage B) */
+  --bg: #ffffff;
+  --bg-alt: #f3f3f3;
+  --surface: #ffffff;
+  --line: #c9c9c9;
+  --ink: #111111;
+  --ink-2: #2e2e2e;
+  --muted: #595959;
+  --accent: #111111;
+  --accent-hover: #000000;
+  --accent-ink: #ffffff;
+  --gold: #8c8c8c;
+  --gold-ink: #111111;
+  --focus: #111111;
+  --dot-tidal: #595959;
+  --dot-qobuz: #595959;
+  --dot-ytm: #595959;
+
+  /* Type */
+  --serif: "Playfair Display", Georgia, serif;
+  --sans: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --fs-body: 1.0625rem;
+  --fs-small: 0.9375rem;
+  --fs-label: 0.875rem;
+  --fs-h1: clamp(2.5rem, 1.5rem + 4.4vw, 4.25rem);
+  --fs-h2: clamp(1.9rem, 1.4rem + 2vw, 2.75rem);
+  --fs-h3: 1.25rem;
+  --fs-stat: clamp(1.5rem, 1rem + 1.5vw, 2rem);
+  --leading-tight: 1.1;
+  --leading-snug: 1.2;
+  --leading-body: 1.6;
+
+  /* Space (4px base) */
+  --s1: 0.25rem;
+  --s2: 0.5rem;
+  --s3: 0.75rem;
+  --s4: 1rem;
+  --s5: 1.5rem;
+  --s6: 2rem;
+  --s7: 3rem;
+  --s8: 4rem;
+  --section-y: clamp(2.25rem, 4.5vw, 4rem);
+  --gutter: clamp(1.25rem, 5vw, 2.5rem);
+  --max: 70rem;
+
+  /* Shape */
+  --radius: 0.5rem;
+  --radius-lg: 0.75rem;
+}
+
+/* ── BASE ───────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; }
+
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: var(--fs-body);
+  font-weight: 500;
+  line-height: var(--leading-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+[id] { scroll-margin-top: 5rem; }
+
+a { color: inherit; }
+
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.skip {
+  position: absolute;
+  left: var(--s4);
+  top: -4rem;
+  z-index: 100;
+  padding: var(--s3) var(--s4);
+  background: var(--accent);
+  color: var(--accent-ink);
+  border-radius: var(--radius);
+}
+.skip:focus { top: var(--s3); }
+
+.wrap {
+  width: min(100% - 2 * var(--gutter), var(--max));
+  margin-inline: auto;
+}
+
+h1, h2, h3 { font-family: var(--serif); }
+
+h2 {
+  font-size: var(--fs-h2);
+  font-weight: 700;
+  line-height: var(--leading-snug);
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+h3 {
+  font-size: var(--fs-h3);
+  font-weight: 700;
+  line-height: var(--leading-snug);
+}
+
+/* ── LAYOUT ─────────────────────────────────────────── */
+main > section { padding-block: var(--section-y); }
+main > section + section { border-top: 1px solid var(--line); }
+
+.section-head { max-width: 46rem; margin-bottom: var(--s6); }
+.section-head h2 { margin-bottom: var(--s4); }
+.section-head p { color: var(--ink-2); }
+
+.split {
+  display: grid;
+  gap: var(--s4) var(--s7);
+}
+@media (min-width: 56rem) {
+  .split { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); align-items: start; }
+}
+.split p { color: var(--ink-2); }
+
+.grid {
+  display: grid;
+  gap: var(--s4);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr));
+  list-style: none;
+  padding: 0;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: var(--s5);
+}
+.card p { color: var(--ink-2); }
+
+/* ── BUTTONS AND LINKS ──────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.75rem;
+  padding: 0 var(--s5);
+  border: 2px solid transparent;
+  border-radius: var(--radius);
+  font: inherit;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+}
+.btn-primary { background: var(--accent); color: var(--accent-ink); }
+.btn-primary:hover { background: var(--accent-hover); }
+.btn-secondary { border-color: var(--ink); color: var(--ink); background: transparent; }
+.btn-secondary:hover { background: var(--ink); color: var(--bg); }
+.btn-large { min-height: 3.25rem; padding: 0 var(--s6); font-size: 1.125rem; }
+
+.link {
+  font-weight: 600;
+  text-underline-offset: 0.25em;
+}
+.link:hover { text-decoration-thickness: 2px; }
+
+/* ── HEADER ─────────────────────────────────────────── */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--bg);
+  border-bottom: 1px solid transparent;
+}
+.site-header.is-scrolled { border-bottom-color: var(--line); }
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s4);
+  min-height: 4.25rem;
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s3);
+  text-decoration: none;
+}
+.logo-bars {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  height: 2rem;
+}
+.logo-bar {
+  display: block;
+  width: 4px;
+  border-radius: 2px;
+  background: var(--gold);
+}
+.logo-bar:nth-child(1), .logo-bar:nth-child(5) { height: 10px; }
+.logo-bar:nth-child(2), .logo-bar:nth-child(4) { height: 20px; }
+.logo-bar:nth-child(3) { height: 32px; }
+.logo-text {
+  font-family: var(--serif);
+  font-size: 1.375rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+.logo-text .rest {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+}
+
+.header-nav {
+  display: flex;
+  align-items: center;
+  gap: var(--s5);
+}
+
+/* ── HERO ───────────────────────────────────────────── */
+.hero { padding-top: clamp(2rem, 6vw, 5rem); }
+
+.hero-grid {
+  display: grid;
+  gap: var(--s7);
+  align-items: end;
+}
+@media (min-width: 60rem) {
+  .hero-grid { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
+}
+
+.hero h1 {
+  font-size: var(--fs-h1);
+  font-weight: 700;
+  line-height: var(--leading-tight);
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+  margin-bottom: var(--s5);
+}
+.hero h1 em { font-style: italic; color: var(--gold-ink); }
+
+.hero-sub {
+  max-width: 34rem;
+  color: var(--ink-2);
+  font-size: 1.1875rem;
+  margin-bottom: var(--s6);
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s4) var(--s5);
+  margin-bottom: var(--s6);
+}
+
+.platforms {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s2) var(--s5);
+  list-style: none;
+  padding: 0;
+  font-size: var(--fs-small);
+  color: var(--muted);
+}
+.platforms li { display: inline-flex; align-items: center; gap: var(--s2); }
+.dot { width: 0.625rem; height: 0.625rem; border-radius: 50%; background: var(--muted); }
+.dot-tidal { background: var(--dot-tidal); }
+.dot-qobuz { background: var(--dot-qobuz); }
+.dot-ytm { background: var(--dot-ytm); }
+
+.stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+.stat {
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: flex-end;
+  gap: var(--s1);
+  background: var(--surface);
+  padding: var(--s4);
+}
+@media (min-width: 40rem) {
+  .stat { padding: var(--s5); }
+}
+.stat dd {
+  font-family: var(--serif);
+  font-size: var(--fs-stat);
+  font-weight: 700;
+  line-height: var(--leading-tight);
+}
+.stat dt {
+  font-size: var(--fs-small);
+  color: var(--muted);
+}
+
+/* ── HOW IT WORKS ───────────────────────────────────── */
+.step-num {
+  display: block;
+  font-family: var(--serif);
+  font-size: 3rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--accent);
+  margin-bottom: var(--s4);
+}
+.steps h3 { margin-bottom: var(--s2); }
+
+/* ── TAGS, DIFFERENCES ──────────────────────────────── */
+.tag {
+  display: inline-block;
+  margin-bottom: var(--s3);
+  padding: 0.125rem var(--s3);
+  border: 1px solid var(--ink);
+  border-radius: 999px;
+  font-size: var(--fs-label);
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.diff-card { display: flex; flex-direction: column; }
+.diff-card h3 { margin-bottom: var(--s2); }
+.diff-vs {
+  margin-top: auto;
+  padding-top: var(--s4);
+  font-size: var(--fs-small);
+  font-style: italic;
+  color: var(--muted);
+}
+.diff-card p:not(.diff-vs) { margin-bottom: var(--s4); }
+
+/* ── CHIPS ──────────────────────────────────────────── */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s3);
+  list-style: none;
+  padding: 0;
+  margin-top: var(--s5);
+}
+.chips li {
+  padding: var(--s2) var(--s4);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+}
+
+/* ── TESTIMONIALS ───────────────────────────────────── */
+.quote { display: flex; flex-direction: column; justify-content: space-between; gap: var(--s5); }
+.quote blockquote { font-style: italic; color: var(--ink-2); }
+.quote figcaption { font-size: var(--fs-small); color: var(--muted); }
+
+/* ── PRICING ────────────────────────────────────────── */
+.pricing-grid {
+  display: grid;
+  gap: var(--s4);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr));
+  max-width: 46rem;
+}
+.price-card { display: flex; flex-direction: column; }
+.price-card.is-featured { border: 2px solid var(--accent); }
+.price-label {
+  font-size: var(--fs-label);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: var(--s2);
+}
+.price-card .tag { align-self: flex-start; }
+.price-amount {
+  font-family: var(--serif);
+  font-size: 2.75rem;
+  font-weight: 700;
+  line-height: var(--leading-tight);
+}
+.price-period {
+  font-size: var(--fs-small);
+  color: var(--muted);
+  margin-bottom: var(--s5);
+}
+.price-features {
+  list-style: none;
+  padding: 0;
+  margin-bottom: var(--s5);
+}
+.price-features li {
+  display: flex;
+  gap: var(--s2);
+  padding-block: var(--s1);
+}
+.price-features li::before { content: "\2713"; font-weight: 700; }
+.price-card .btn { margin-top: auto; }
+.pricing-note { margin-top: var(--s5); color: var(--muted); font-size: var(--fs-small); }
+
+/* ── SIGNUP ─────────────────────────────────────────── */
+.signup-box {
+  background: var(--bg-alt);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: clamp(var(--s5), 5vw, var(--s7));
+}
+.signup-box h2 { margin-bottom: var(--s3); }
+.signup-box > p { max-width: 36rem; color: var(--ink-2); margin-bottom: var(--s5); }
+
+.signup { display: flex; flex-wrap: wrap; gap: var(--s3); max-width: 32rem; }
+.signup input {
+  flex: 1 1 14rem;
+  min-height: 2.75rem;
+  padding: 0 var(--s4);
+  border: 2px solid var(--ink);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+}
+.signup input::placeholder { color: var(--muted); }
+.signup-status { flex-basis: 100%; min-height: 1.5em; font-size: var(--fs-small); color: var(--ink-2); }
+
+/* ── FOOTER ─────────────────────────────────────────── */
+.site-footer {
+  border-top: 1px solid var(--line);
+  padding-block: var(--s6);
+  font-size: var(--fs-small);
+  color: var(--muted);
+}
+.site-footer .wrap {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--s3) var(--s5);
+}
+</style>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-header" id="site-header">
+  <div class="wrap header-inner">
+    <a class="logo" href="/" aria-label="Sonic Oracle home">
+      <span class="logo-bars" aria-hidden="true">
+        <span class="logo-bar"></span>
+        <span class="logo-bar"></span>
+        <span class="logo-bar"></span>
+        <span class="logo-bar"></span>
+        <span class="logo-bar"></span>
+      </span>
+      <span class="logo-text" aria-hidden="true"><span class="word">S<span class="rest">onic</span></span> <span class="word">O<span class="rest">racle</span></span></span>
+    </a>
+    <nav class="header-nav" aria-label="Primary">
+      <a class="link" href="/blog">Blog</a>
+      <a class="btn btn-primary" href="/app">Log in</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <h1 id="hero-title">Discover artists your streaming app <em>can't find</em></h1>
+        <p class="hero-sub">Sonic Oracle uses taste affinity, not generic algorithms, to&nbsp;build permanent playlists directly in your streaming library. Works with Qobuz, Tidal, and YouTube Music.</p>
+        <div class="hero-actions" id="getstarted">
+          <a class="btn btn-primary btn-large" href="https://youtu.be/FEPGcLR35nM" target="_blank" rel="noopener noreferrer">See it in action<span class="visually-hidden"> (opens in a new tab)</span></a>
+          <a class="link" href="#pricing">See pricing</a>
+        </div>
+        <ul class="platforms" aria-label="Works with">
+          <li><span class="dot dot-tidal" aria-hidden="true"></span>Tidal</li>
+          <li><span class="dot dot-qobuz" aria-hidden="true"></span>Qobuz</li>
+          <li><span class="dot dot-ytm" aria-hidden="true"></span>YouTube Music</li>
+        </ul>
+      </div>
+
+      <dl class="stats">
+        <div class="stat"><dt>Discovery time</dt><dd>In seconds</dd></div>
+        <div class="stat"><dt>Track hit rate</dt><dd>97%</dd></div>
+        <div class="stat"><dt>Artists per playlist</dt><dd>Up to 25</dd></div>
+        <div class="stat"><dt>Tracks per playlist</dt><dd>Up to 75</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="how reveal" id="how" aria-labelledby="how-title">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="how-title">Three steps to your next favorite playlist</h2>
+      </div>
+      <ol class="grid steps">
+        <li class="card">
+          <span class="step-num" aria-hidden="true">1</span>
+          <h3>Search any artist or track</h3>
+          <p>Type an artist or a single song you love. Sonic Oracle looks at its sonic fingerprint and listener patterns with its own recommendation engine.</p>
+        </li>
+        <li class="card">
+          <span class="step-num" aria-hidden="true">2</span>
+          <h3>Discover up to 25 artists</h3>
+          <p>Recommendations are ranked by taste affinity. Trending doesn't enter into it. Genre-aware filtering makes sure every artist belongs.</p>
+        </li>
+        <li class="card">
+          <span class="step-num" aria-hidden="true">3</span>
+          <h3>Create a permanent playlist</h3>
+          <p>One click builds a playlist directly in your streaming library. It appears instantly on your Audirvana, Roon, or any networked Hi-Fi streamer. Yours to keep and edit forever.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="reveal" aria-labelledby="song-title">
+    <div class="wrap split">
+      <div>
+        <span class="tag">New</span>
+        <h2 id="song-title">Start from a song, not an artist</h2>
+      </div>
+      <p>Heard one track that hit right? Drop it in and Sonic Oracle builds a playlist of deep cuts in the same space, songs sharing its style and era, pulled from dozens of artists you'd never find on your own. One song in, a whole world out.</p>
+    </div>
+  </section>
+
+  <section class="reveal" aria-labelledby="why-title">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="why-title">Your streaming app keeps recommending the same artists</h2>
+        <p>Algorithmic playlists recycle what you already know. They optimize for engagement, not discovery. Sonic Oracle finds the artists those algorithms miss, the ones loved by listeners with your taste who went deeper.</p>
+      </div>
+      <div class="grid">
+        <article class="card diff-card">
+          <h3>Taste affinity, not sonic matching</h3>
+          <p>Most services recommend "artists that sound similar." We find artists loved by the same ears, the ones you'd add to your collection.</p>
+          <p class="diff-vs">Similar sound → Shared taste</p>
+        </article>
+        <article class="card diff-card">
+          <h3>Permanent playlists you own</h3>
+          <p>No ephemeral radio that vanishes when you close the app. Your playlist lives in your library forever. Edit it, share it, grow it.</p>
+          <p class="diff-vs">Temporary radio → Permanent collection</p>
+        </article>
+        <article class="card diff-card">
+          <h3>Best tracks, not filler</h3>
+          <p>Every track is selected from the artist's strongest albums, ranked by popularity and matched to your seed. No compilations, no covers, no holiday albums.</p>
+          <p class="diff-vs">Random deep cuts → Representative best work</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal" aria-labelledby="data-title">
+    <div class="wrap split">
+      <h2 id="data-title">Built on listening data</h2>
+      <p>Sonic Oracle pulls from publicly available listening data, cross-references artist relationships, and scores each candidate with its own algorithm to find artists that automated playlists miss. The result is a discovery map drawn from listening history.</p>
+    </div>
+  </section>
+
+  <section class="reveal" aria-labelledby="dial-title">
+    <div class="wrap split">
+      <h2 id="dial-title">Go deeper than any algorithm will take you</h2>
+      <p>Three depths of discovery, one dial. Essential covers the core connections every fan should know. Balanced pulls in deeper cuts from the same world. Adventurous breaks the walls down, crossing genres, decades, and scenes to find artists no playlist has ever handed you. Run the same search twice on Adventurous and get different results each time.</p>
+    </div>
+  </section>
+
+  <section class="reveal" aria-labelledby="setup-title">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="setup-title">Create here. Listen there.</h2>
+        <p>No syncing. No importing. No extra apps. Create a playlist and hit play.</p>
+      </div>
+      <ul class="chips">
+        <li>Audirvana</li>
+        <li>Roon</li>
+        <li>Lumin</li>
+        <li>Eversolo</li>
+        <li>Bluesound</li>
+        <li>WiiM</li>
+        <li>Cambridge Audio</li>
+        <li>Naim</li>
+        <li>dCS</li>
+        <li>HiFi Rose</li>
+        <li>Innuos</li>
+        <li>Aurender</li>
+        <li>Linn</li>
+        <li>McIntosh</li>
+        <li>Dynaudio</li>
+        <li>Any streamer with Qobuz Connect or Tidal Connect</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="reveal" aria-labelledby="quotes-title">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="quotes-title">What listeners are saying</h2>
+      </div>
+      <div class="grid">
+        <figure class="card quote">
+          <blockquote>"What you've designed and created from scratch is the missing piece that starving music lovers have been hoping&nbsp;for."</blockquote>
+          <figcaption>R., lifetime subscriber</figcaption>
+        </figure>
+        <figure class="card quote">
+          <blockquote>"A project I believe in and which I am benefiting from every&nbsp;day."</blockquote>
+          <figcaption>S., lifetime subscriber</figcaption>
+        </figure>
+        <figure class="card quote">
+          <blockquote>"I made my first three playlists and became a lifetime member. I already discovered a fantastic album I never would have found without Sonic Oracle. The playlists it creates are&nbsp;amazing."</blockquote>
+          <figcaption>T., lifetime subscriber</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal" id="pricing" aria-labelledby="pricing-title">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="pricing-title">Explore for free. Go deeper with Sonic Oracle.</h2>
+      </div>
+      <div class="pricing-grid">
+        <article class="card price-card is-featured">
+          <span class="tag">Best value</span>
+          <p class="price-label">Lifetime</p>
+          <p class="price-amount">$39.99</p>
+          <p class="price-period">one-time payment</p>
+          <ul class="price-features">
+            <li>All paid features included</li>
+            <li>Yours forever</li>
+            <li>Priority access to new features</li>
+            <li>Support indie development</li>
+          </ul>
+          <a class="btn btn-primary" href="/app?upgrade=true&amp;plan=lifetime">Get Lifetime</a>
+        </article>
+        <article class="card price-card">
+          <p class="price-label">Yearly</p>
+          <p class="price-amount">$14.99</p>
+          <p class="price-period">$1.25/month, billed yearly</p>
+          <ul class="price-features">
+            <li>25 discovery cards</li>
+            <li>Unlimited playlists</li>
+            <li>Adventure dial</li>
+            <li>Direct streaming links</li>
+          </ul>
+          <a class="btn btn-secondary" href="/app?upgrade=true&amp;plan=yearly">Subscribe</a>
+        </article>
+      </div>
+      <p class="pricing-note">Try it for free, 3 playlist creations included. No credit card required.</p>
+    </div>
+  </section>
+
+  <section class="reveal" aria-labelledby="signup-title">
+    <div class="wrap">
+      <div class="signup-box">
+        <h2 id="signup-title">Your next favorite artist is waiting</h2>
+        <p>Stay in the loop. Get updates on new features, platform launches, and music discovery tips. No spam, ever.</p>
+        <form class="signup" id="signup" novalidate>
+          <label class="visually-hidden" for="signup-email">Email address</label>
+          <input id="signup-email" name="email" type="email" autocomplete="email" placeholder="Enter your email" required>
+          <button class="btn btn-primary" type="submit" id="signup-btn">Subscribe</button>
+          <p class="signup-status" id="signup-status" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <a class="link" href="/terms">Terms &amp; Privacy</a>
+    <p>© 2026 Sonic Oracle · sonicoracle.music</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  // Header gets a bottom rule once the page scrolls.
+  var header = document.getElementById('site-header');
+  function onScroll() { header.classList.toggle('is-scrolled', window.scrollY > 8); }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  // Email signup. Posts to /api/waitlist on the real domain.
+  var form = document.getElementById('signup');
+  var input = document.getElementById('signup-email');
+  var btn = document.getElementById('signup-btn');
+  var status = document.getElementById('signup-status');
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (!input.checkValidity()) {
+      status.textContent = 'Please enter a valid email address.';
+      input.focus();
+      return;
+    }
+    btn.disabled = true;
+    status.textContent = '';
+    fetch('/api/waitlist', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: input.value.trim() })
+    })
+      .then(function (r) { if (!r.ok) throw new Error('bad response'); return r.json(); })
+      .then(function () {
+        status.textContent = "You're subscribed.";
+        input.value = '';
+      })
+      .catch(function () {
+        status.textContent = 'Something went wrong. Please try again.';
+      })
+      .then(function () { btn.disabled = false; });
+  });
+})();
+</script>
+
+</body>
+</html>
