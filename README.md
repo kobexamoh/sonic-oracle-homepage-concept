@@ -2,6 +2,8 @@
 
 A before/after of the current sonicoracle.music homepage. Open `/before/` for the live page as it stood on 2026-10-01, and `/` for the cleaned version.
 
+This branch (`v0.5`) is `v0` with one change: the four stats beside the headline show the label first and the value second ("Discovery time", then "In seconds"), and the values line up across each row. Everything else matches `v0`.
+
 ## Files
 
 - `before/index.html`: the live page, saved byte for byte.
