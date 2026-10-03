@@ -1,7 +1,9 @@
 :root {
   /* Same palette and type as the v7 mockup, so the gallery reads as part of it. */
-  --bg: #faf6ee;
-  --bg-alt: #f1e9d7;
+  /* --bg is color(srgb 0.9884 0.9842 0.9927) rounded to 8-bit. --bg-alt is a
+     slightly deeper tint of the same hue for the table header and thumbnails. */
+  --bg: #fcfbfd;
+  --bg-alt: #f3f1f6;
   --surface: #ffffff;
   --surface-line: rgba(36, 30, 20, 0.14);
   --text: #241f16;
